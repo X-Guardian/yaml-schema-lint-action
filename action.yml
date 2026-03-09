@@ -59,14 +59,14 @@ runs:
         if [ -n "${{ inputs.binary }}" ]; then
           ${{ inputs.binary }} "${args[@]}" || true
         else
-          npx yaml-schema-lint@${{ inputs.version }} "${args[@]}" || true
+          npx --yes yaml-schema-lint@${{ inputs.version }} "${args[@]}" || true
         fi
 
     - name: Create Check
       uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
       with:
         script: |
-          const script = require('./create-check.js');
+          const script = require('${{ github.action_path }}/create-check.js');
           await script({
             github,
             context,
