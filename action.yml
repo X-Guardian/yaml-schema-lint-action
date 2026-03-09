@@ -46,6 +46,11 @@ runs:
       with:
         node-version: ${{ inputs.node-version }}
 
+    - name: Install yaml-schema-lint
+      if: inputs.binary == ''
+      shell: bash
+      run: npm install -g yaml-schema-lint@${{ inputs.version }}
+
     - name: Run yaml-schema-lint
       shell: bash
       run: |
@@ -59,7 +64,7 @@ runs:
         if [ -n "${{ inputs.binary }}" ]; then
           ${{ inputs.binary }} "${args[@]}" || true
         else
-          npx --yes --package yaml-schema-lint@${{ inputs.version }} -- yaml-schema-lint "${args[@]}" || true
+          yaml-schema-lint "${args[@]}" || true
         fi
 
     - name: Create Check
