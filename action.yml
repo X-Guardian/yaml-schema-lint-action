@@ -1,0 +1,80 @@
+name: yaml-schema-lint Report
+description: Lint YAML files against JSON schemas and create a GitHub Check with annotations
+
+inputs:
+  patterns:
+    description: YAML file paths or glob patterns (space-separated, e.g. "**/*.yml **/*.yaml")
+    required: true
+  ignore:
+    description: Glob patterns to exclude (space-separated)
+    default: '**/node_modules/**'
+  settings-path:
+    description: Path to a VS Code settings.json with yaml.schemas
+    default: .vscode/settings.json
+  no-schema-store:
+    description: Disable fetching schemas from schemastore.org
+    default: 'false'
+  version:
+    description: yaml-schema-lint version to install. Ignored when binary is set.
+    default: '0.2.0-beta.2'
+  binary:
+    description: Path to a local yaml-schema-lint binary (skips npx install, useful for testing from source)
+    default: ''
+  node-version:
+    description: Node.js version to use
+    default: '24'
+  check-name:
+    description: Name shown in the GitHub Checks tab
+    default: YAML Lint Report
+  fail-on-error:
+    description: Set the check conclusion to failure when errors are found
+    default: 'true'
+  fail-on-warning:
+    description: Set the check conclusion to failure when warnings are found
+    default: 'false'
+  only-pr-files:
+    description: Only annotate files that were changed in the pull request
+    default: 'true'
+  markdown-report-on-step-summary:
+    description: Write a markdown summary to the GitHub Actions step summary
+    default: 'true'
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+      with:
+        node-version: ${{ inputs.node-version }}
+
+    - name: Run yaml-schema-lint
+      shell: bash
+      run: |
+        args=(${{ inputs.patterns }})
+        args+=(--ignore ${{ inputs.ignore }})
+        args+=(--settings-path "${{ inputs.settings-path }}")
+        if [ "${{ inputs.no-schema-store }}" = "true" ]; then
+          args+=(--no-schema-store)
+        fi
+        args+=(--format json --output-file "${{ runner.temp }}/yaml-lint-report.json")
+        if [ -n "${{ inputs.binary }}" ]; then
+          ${{ inputs.binary }} "${args[@]}" || true
+        else
+          npx yaml-schema-lint@${{ inputs.version }} "${args[@]}" || true
+        fi
+
+    - name: Create Check
+      uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+      with:
+        script: |
+          const script = require('./create-check.js');
+          await script({
+            github,
+            context,
+            core,
+            reportPath: `${{ runner.temp }}/yaml-lint-report.json`,
+            checkName: `${{ inputs.check-name }}`,
+            failOnError: `${{ inputs.fail-on-error }}` === 'true',
+            failOnWarning: `${{ inputs.fail-on-warning }}` === 'true',
+            onlyPrFiles: `${{ inputs.only-pr-files }}` === 'true',
+            stepSummary: `${{ inputs.markdown-report-on-step-summary }}` === 'true',
+          });
