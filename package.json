@@ -1,0 +1,13 @@
+{
+  "name": "yaml-schema-lint-action",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GitHub Action that lints YAML files against JSON schemas and creates a Check with annotations",
+  "scripts": {
+    "test": "jest --config jest.config.cjs"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^30.0.0"
+  }
+}
