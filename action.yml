@@ -59,7 +59,7 @@ runs:
         if [ -n "${{ inputs.binary }}" ]; then
           ${{ inputs.binary }} "${args[@]}" || true
         else
-          npx --yes yaml-schema-lint@${{ inputs.version }} "${args[@]}" || true
+          npx --yes --package yaml-schema-lint@${{ inputs.version }} -- yaml-schema-lint "${args[@]}" || true
         fi
 
     - name: Create Check
