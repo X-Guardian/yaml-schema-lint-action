@@ -1,6 +1,5 @@
 {
   "name": "yaml-schema-lint-action",
-  "version": "0.1.0",
   "private": true,
   "description": "GitHub Action that lints YAML files against JSON schemas and creates a Check with annotations",
   "scripts": {
