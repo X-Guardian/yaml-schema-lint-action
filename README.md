@@ -32,7 +32,7 @@ yaml-lint:
 | `node-version`                    | Node.js version to use                                 | No       | `24`                    |
 | `check-name`                      | Name shown in the GitHub Checks tab                    | No       | `YAML Lint Report`      |
 | `fail-on-error`                   | Fail the check when errors are found                   | No       | `true`                  |
-| `fail-on-warning`                 | Fail the check when warnings are found                 | No       | `false`                 |
+| `fail-on-warning`                 | Fail the check when warnings are found                 | No       | `true`                  |
 | `only-pr-files`                   | Only annotate files changed in the pull request        | No       | `true`                  |
 | `markdown-report-on-step-summary` | Write a markdown summary to the step summary           | No       | `true`                  |
 

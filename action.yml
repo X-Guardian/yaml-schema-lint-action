@@ -31,7 +31,7 @@ inputs:
     default: 'true'
   fail-on-warning:
     description: Set the check conclusion to failure when warnings are found
-    default: 'false'
+    default: 'true'
   only-pr-files:
     description: Only annotate files that were changed in the pull request
     default: 'true'
