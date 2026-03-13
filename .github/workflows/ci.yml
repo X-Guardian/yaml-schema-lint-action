@@ -24,7 +24,7 @@ jobs:
       - name: Run tests
         run: npx jest --config jest.config.cjs --ci --coverage
 
-  yaml-lint:
+  yaml-schema-lint:
     name: YAML Lint
     runs-on: ubuntu-latest
     permissions:
