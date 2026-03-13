@@ -16,16 +16,16 @@ inputs:
     default: 'false'
   version:
     description: yaml-schema-lint version to install. Ignored when binary is set.
-    default: '0.2.0-beta.2'
+    default: '1.1.0'
   binary:
-    description: Path to a local yaml-schema-lint binary (skips npx install, useful for testing from source)
+    description: Path to a local yaml-schema-lint binary (skips install, useful for testing from source)
     default: ''
   node-version:
     description: Node.js version to use
     default: '24'
   check-name:
     description: Name shown in the GitHub Checks tab
-    default: YAML Lint Report
+    default: YAML Schema Lint Report
   fail-on-error:
     description: Set the check conclusion to failure when errors are found
     default: 'true'
@@ -49,7 +49,7 @@ runs:
     - name: Install yaml-schema-lint
       if: inputs.binary == ''
       shell: bash
-      run: npm install -g yaml-schema-lint@${{ inputs.version }}
+      run: npm install --global yaml-schema-lint@${{ inputs.version }}
 
     - name: Run yaml-schema-lint
       shell: bash
