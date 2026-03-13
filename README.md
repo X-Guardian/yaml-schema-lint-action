@@ -14,7 +14,7 @@ yaml-schema-lint:
   steps:
     - uses: actions/checkout@v4
 
-    - uses: X-Guardian/yaml-schema-lint-action@v1
+    - uses: X-Guardian/yaml-schema-lint-action@v1.0.0
       with:
         patterns: "'**/*.yml' '**/*.yaml'"
 ```

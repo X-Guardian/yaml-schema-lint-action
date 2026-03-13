@@ -1,5 +1,10 @@
 name: yaml-schema-lint
 description: Lint YAML files against JSON schemas and create a GitHub Check with annotations
+author: X-Guardian
+
+branding:
+  icon: check-circle
+  color: blue
 
 inputs:
   patterns:
