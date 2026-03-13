@@ -1,4 +1,4 @@
-name: yaml-schema-lint Report
+name: yaml-schema-lint
 description: Lint YAML files against JSON schemas and create a GitHub Check with annotations
 author: X-Guardian
 
